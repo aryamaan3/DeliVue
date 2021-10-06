@@ -18,7 +18,7 @@
         </label>
     </form>
 
-    <h1>Nombre de restaurants : {{restaurants.length}}</h1>
+    <h1>Nombre de restaurants : {{nbTotal}}</h1>
     <div class="slidecontainer">
         <input v-on:input="slideChanged($event)" type="range" min="5" max="100" value="5" class="slider" id="myRange">
         <p id="valeurSlide">{{range}}</p>
@@ -63,7 +63,8 @@ export default {
             recherche:'',
             nbPage: 0, 
             range: 5, 
-            nomSearched: ''
+            nomSearched: '', 
+            nbTotal:0
     })},
   methods: {
     supprimerRestaurant(index) {
@@ -120,7 +121,9 @@ export default {
             resto.json().then((resto) => { //no lo sait
                 for (let i = 0; i < resto.data.length; i++) {
                     this.restaurants = resto.data;
+
                 }
+                this.nbTotal = resto.count;
                 this.longeur = this.restaurants.length;
             });
         }).catch(function(error) {
