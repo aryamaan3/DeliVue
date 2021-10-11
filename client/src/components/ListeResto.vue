@@ -36,7 +36,7 @@
                 <td> {{r.cuisine}}</td>
                 <td>
                     <button v-on:click="supprimerRestaurant(index)">Supprimer</button>
-                    <button v-on:click="modifierRestaurant(index)">Modifier</button>
+                    <button v-on:click="restoClicked(index)">Détails</button>
                 </td>
             </tr>
         </tbody>
@@ -141,8 +141,11 @@ export default {
         this.nomSearched = this.recherche
         this.getRestaurantsFromServer()
     }, 
-    modifierRestaurant(index) {
-        console.log(index)
+    restoClicked(index) {
+        // change router
+        this.$router.push({
+            path: '/resto/'+this.restaurants[index]._id
+        })
     }
 
   }

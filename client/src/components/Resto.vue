@@ -1,14 +1,14 @@
-
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div id="resto">
+    Resto {{id}}
   </div>
 </template>
 
 <script>
 
 export default {
-  name: 'App',
+  name: 'Resto',
+  props: ['id'],
   components: {
   }
 }
