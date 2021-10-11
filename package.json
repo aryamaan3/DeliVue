@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "mapbox-gl": "^0.53.1",
+    "vue-mapbox": "^0.4.1",
+    "vue-material": "^1.0.0-beta-15",
     "vue-router": "^3.5.2"
   }
 }

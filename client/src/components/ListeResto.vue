@@ -35,14 +35,19 @@
                 <td>{{r.name}}</td>
                 <td> {{r.cuisine}}</td>
                 <td>
-                    <button v-on:click="supprimerRestaurant(index)">Supprimer</button>
-                    <button v-on:click="restoClicked(index)">Détails</button>
+                    <md-button v-on:click="supprimerRestaurant(index)" class="md-icon-button">
+                        <md-icon>delete</md-icon>
+                    </md-button>
+                    <md-button v-on:click="restoClicked(index)" class="md-icon-button">
+                        <md-icon>info</md-icon>
+                    </md-button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <button :disabled="nbPage===0" v-on:click="getRestaurantsFromServer($event)" value="0">Précédant</button>
-    <button v-on:click="getRestaurantsFromServer($event)" value="1">Suivant</button>
+    <md-button :disabled="nbPage===0" class="md-icon-button" v-on:click="getRestaurantsFromServer($event)" value="0"><md-icon id="previous">navigate_before</md-icon></md-button>
+    <md-button :disabled="nbPage===nbTotal" class="md-icon-button" v-on:click="getRestaurantsFromServer($event)" value="1"><md-icon id="next">navigate_next</md-icon></md-button>
+    
   </div>
 </template>
 
@@ -106,7 +111,7 @@ export default {
     }, 
     getRestaurantsFromServer(isSuivant) {
         if(isSuivant){
-            if(isSuivant.target.value === "1"){
+            if(isSuivant.target.id === "next"){
                 this.nbPage++;
             }
             else{
@@ -153,7 +158,9 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css?family=Material+Icons");
 #resto {
     width: 100%;
 }
+
 </style>
