@@ -25,10 +25,17 @@
             <md-list-item>
                 <md-icon>place</md-icon>
                 <div class="md-list-item-text">
-                <h3>Address</h3>
+                <h3>Addresse</h3>
                 <p> {{building}}</p>
                 <p> {{street}}</p>
                 <p> {{zipcode}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item>
+                <md-icon>image</md-icon>
+                <div class="md-list-item-text">
+                <h3>Images</h3>
+                <img src="https://bstatic.ccmbg.com/www.linternaute.com/img/restaurant/villes/440x293/1.jpg" alt="photo du resto">
                 </div>
             </md-list-item>
             </md-list>
@@ -51,6 +58,7 @@ export default {
                 grades.push(array[i].score)
             }
             gradesAvg = grades.reduce((a, b) => a + b) / array.length;
+            gradesAvg = (gradesAvg).toFixed(2) //max 2 nombres apres la virgule
 
             let ratings = []
             for (let i = 0; i < array.length; i++){
