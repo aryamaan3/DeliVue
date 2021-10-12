@@ -6,69 +6,43 @@
             <h3>{{name}}</h3>
             </div>
         </md-app-toolbar>
+        <md-app-drawer md-permanent="full">
+        <md-toolbar class="md-transparent" md-elevation="0">
+          Navigation
+        </md-toolbar>
+
+        <md-list>
+          <md-list-item>
+            <md-icon>help_outline</md-icon>
+            <span class="md-list-item-text">À propos</span>
+          </md-list-item>
+
+          <md-list-item>
+            <md-icon>map</md-icon>
+            <span class="md-list-item-text">Map</span>
+          </md-list-item>
+
+          <md-list-item>
+            <md-icon>restaurant_menu</md-icon>
+            <span class="md-list-item-text">Menu</span>
+          </md-list-item>
+
+          <md-list-item>
+            <md-icon>edit</md-icon>
+            <span class="md-list-item-text">Modifier</span>
+          </md-list-item>
+
+        </md-list>
+      </md-app-drawer>
         <md-app-content>
-            <md-list>
-            <md-list-item>
-                <md-icon>restaurant</md-icon>
-                <div class="md-list-item-text">
-                <h3>Cuisine</h3>
-                <p>{{ cuisine }}</p>
-                </div>
-            </md-list-item>
-            <md-list-item>
-                <md-icon>apartment</md-icon>
-                <div class="md-list-item-text">
-                <h3>Borough</h3>
-                <p>{{ borough }}</p>
-                </div>
-            </md-list-item>
-            <md-list-item>
-                <md-icon>rate_review</md-icon>
-                <div class="md-list-item-text">
-                <h3>Avis Moyen</h3>
-                <p> {{average(grades)}}</p>
-                </div>
-            </md-list-item>
-            <md-list-item>
-                <md-icon>place</md-icon>
-                <div class="md-list-item-text">
-                <h3>Address</h3>
-                <p> {{building}}</p>
-                <p> {{street}}</p>
-                <p> {{zipcode}}</p>
-                </div>
-            </md-list-item>
-            </md-list>
-            <div class="map">
-                <l-map
-                    :center="center"
-                    :zoom="zoom"
-                    class="map"
-                    ref="map"
-                    @update:zoom="zoomUpdated"
-                    @update:center="centerUpdated"
-                >
-                <l-tile-layer
-                    :url="url"
-                >
-                </l-tile-layer>
-                <l-marker
-                    :lat-lng="coordonnees"
-                >
-                    <l-icon ref="icon">
-                        <img class="restaurant-icon" :src="markerImg"/>
-                    </l-icon>
-                </l-marker>
-                </l-map>
-            </div>
+            <About :cuisine = "cuisine" :borough = "borough" :grades = "grades" :building = "building" :street = "street" :zipcode = "zipcode" :coordonnees = "coordonnees" />
         </md-app-content>
     </md-app>
   </div>
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LIcon } from 'vue2-leaflet';
-import 'leaflet/dist/leaflet.css';
+import About from './About.vue'
 
 export default {
   name: 'Resto',
@@ -85,18 +59,11 @@ export default {
       zipcode: 'null',
       building: 'null',
       street: 'null',
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      center: [ 49.1193089, 6.1757156 ],
-      zoom: 12,
-      markerImg: "https://img.icons8.com/doodle/48/000000/pizza--v1.png"
 
     }
   },
   components: {
-    LMap,
-    LTileLayer, 
-    LMarker, 
-    LIcon
+      About
   },
   mounted() {
     this.init();
@@ -125,44 +92,11 @@ export default {
                 console.log(error);
             });
 
-    }, 
-    average(array) {
-        if(array){
-            let grades = []
-            let gradesAvg = 0
-            for(let i = 0; i < array.length; i++){
-                grades.push(array[i].score)
-            }
-            gradesAvg = grades.reduce((a, b) => a + b) / array.length;
-
-            let ratings = []
-            for (let i = 0; i < array.length; i++){
-                ratings.push(array[i].grade)
-            }
-            let avgScore = ratings.sort((a,b) =>
-                ratings.filter(v => v===a).length
-                - ratings.filter(v => v===b).length
-            ).pop();
-            avgScore += " : "
-            avgScore += gradesAvg
-            return avgScore
-        }
-        return 0;
-    }, 
-    zoomUpdated (zoom) {
-        this.zoom = zoom;
-        console.log(this.coordonnees)
-    },
-    centerUpdated (center) {
-        this.center = center;
-    }
+    },  
   }
 }
 </script>
 
-<style>
- .map {
-    width: 100%;
-    height: 100%;
- }
+<style scoped>
+
 </style>
