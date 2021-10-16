@@ -161,6 +161,8 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
 #resto {
     width: 100%;
+    margin-top: 10px;
 }
+
 
 </style>

@@ -10,7 +10,7 @@
       @update:center="centerUpdated"
     >
       <l-tile-layer :url="url"> </l-tile-layer>
-      <l-marker :lat-lng="coords">
+      <l-marker :lat-lng="coords"> {{/**icon par defaut ne fonctionne pas */}}
         <l-icon
           icon-url="http://simpleicon.com/wp-content/uploads/map-marker-1.png"
         />
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     init(){
-        let x = this.coordinates
+        let x = this.coordinates //les coordonnes lat long sont inversés
         this.coords[0] = x[1]
         this.coords[1] = x[0]
         console.log(this.coords)

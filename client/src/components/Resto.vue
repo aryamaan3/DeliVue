@@ -22,20 +22,26 @@
             <span class="md-list-item-text">Localisation</span>
           </md-list-item>
 
-          <md-list-item>
+          <md-list-item v-on:click="galerieClicked">
+            <md-icon>photo_library</md-icon>
+            <span class="md-list-item-text">Galerie</span>
+          </md-list-item>
+
+          <md-list-item v-on:click="menuClicked">
             <md-icon>restaurant_menu</md-icon>
             <span class="md-list-item-text">Menu</span>
           </md-list-item>
 
-          <md-list-item>
+          <md-list-item v-on:click="editClicked">
             <md-icon>edit</md-icon>
             <span class="md-list-item-text">Modifier</span>
           </md-list-item>
         </md-list>
       </md-app-drawer>
-      <md-app-content>
+      <md-app-content class="contents">
         <div class="about" v-if="page === 'about'">
           <About
+            v-if="isMounted === true"
             :cuisine="cuisine"
             :borough="borough"
             :grades="grades"
@@ -46,13 +52,32 @@
           />
         </div>
         <div class="mapContainer" v-if="page === 'map'">
-          <Map :coordinates="coordonnees" />
+          <Map :coordinates="coordonnees" v-if="isMounted === true"/>
         </div>
         <div class="menu" v-if="page === 'menu'">
-          Menu
+          <Menu v-if="isMounted === true"/>
         </div>
         <div class="edit" v-if="page === 'edit'">
-          Edit
+          <Edit :id="id" :name="name" :cuisine="cuisine" v-if="isMounted === true"/>
+        </div>
+        <div class="gallery" v-if="page === 'gallery'">
+          <md-list>
+            <md-list-item>
+              <md-icon>videocam</md-icon>
+              <div class="md-list-item-text">
+              <h3>Videos</h3>
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/kkAxBzX8jYI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              {{/**https://www.w3schools.com/html/html_youtube.asp */}}
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <md-icon>image</md-icon>
+              <div class="md-list-item-text">
+              <h3>Images</h3>
+              <img src="https://bstatic.ccmbg.com/www.linternaute.com/img/restaurant/villes/440x293/1.jpg" alt="photo du resto">
+              </div>
+            </md-list-item>
+          </md-list>
         </div>
       </md-app-content>
     </md-app>
@@ -62,6 +87,8 @@
 <script>
 import About from "./About.vue";
 import Map from "./Map.vue";
+import Menu from "./Menu.vue";
+import Edit from "./Edit.vue";
 
 export default {
   name: "Resto",
@@ -79,13 +106,16 @@ export default {
       building: "null",
       street: "null",
       page: "",
+      isMounted: false
     };
   },
   components: {
     About,
     Map,
+    Menu, 
+    Edit
   },
-  created() {
+  mounted() { // se fait avant le mounted des components enfants
     //fetch resto data
     fetch("http://localhost:8080/api/restaurants/" + this.id, {
       method: "GET",
@@ -103,11 +133,15 @@ export default {
         this.zipcode = data.restaurant.address.zipcode;
         this.building = data.restaurant.address.building;
         this.street = data.restaurant.address.street;
+        this.isMounted = true;
+        console.log("in resto 1")
+
       })
       .catch((error) => {
         console.log(error);
       });
     this.page = "about";
+    console.log("in resto 2")
   },
   methods: {
     mapClicked() {
@@ -122,9 +156,15 @@ export default {
     editClicked() {
       this.page = "edit";
     },
+    galerieClicked() {
+      this.page = "gallery";
+    },
   },
 };
 </script>
 
 <style scoped>
+.about{
+  overflow: scroll;
+}
 </style>
