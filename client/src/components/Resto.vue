@@ -1,40 +1,45 @@
 <template>
   <div id="resto">
     <md-app>
-      <md-app-toolbar class="md-primary">
+      <md-app-toolbar class="md-primary buttonCustomBackground">
         <div class="md-toolbar-tools">
           <h3>{{ name }}</h3>
         </div>
       </md-app-toolbar>
       <md-app-drawer md-permanent="full">
         <md-toolbar class="md-transparent" md-elevation="0">
-          <md-button to="/" class="md-primary">
+          <md-button to="/" class="md-primary buttonCustomColor buttonCustomBackground">
             Retour
           </md-button>
         </md-toolbar>
 
         <md-list>
-          <md-list-item v-on:click="aboutClicked">
+          <md-list-item v-on:click="aboutClicked" :disabled="page==='about'">
             <md-icon>help_outline</md-icon>
             <span class="md-list-item-text">À propos</span>
           </md-list-item>
 
-          <md-list-item v-on:click="mapClicked" v-if="coordonnees[0]!==0 && coordonnees[1]!==0">
+          <md-list-item v-on:click="avisClicked" :disabled="page==='avis'">
+            <md-icon>grade</md-icon>
+            <span class="md-list-item-text">Avis</span>
+          </md-list-item>
+
+          <md-list-item v-on:click="mapClicked" :disabled="page==='map' || coordonnees[0]===0 && coordonnees[1]===0">
             <md-icon>map</md-icon>
             <span class="md-list-item-text">Localisation</span>
           </md-list-item>
 
-          <md-list-item v-on:click="galerieClicked">
+          <md-list-item v-on:click="galerieClicked" :disabled="page==='gallery'">
             <md-icon>photo_library</md-icon>
             <span class="md-list-item-text">Galerie</span>
           </md-list-item>
 
-          <md-list-item v-on:click="menuClicked">
+          <md-list-item v-on:click="menuClicked" :disabled="page==='menu'">
             <md-icon>restaurant_menu</md-icon>
             <span class="md-list-item-text">Menu</span>
           </md-list-item>
 
-          <md-list-item v-on:click="editClicked">
+          <md-list-item v-on:click="editClicked" :disabled="page==='edit'">
             <md-icon>edit</md-icon>
             <span class="md-list-item-text">Modifier</span>
           </md-list-item>
@@ -58,6 +63,9 @@
         </div>
         <div class="menu" v-if="page === 'menu'">
           <Menu v-if="isMounted === true" />
+        </div>
+        <div class="avis" v-if="page === 'avis'">
+          <Avis :grades="grades" :id="id" v-if="isMounted === true" />
         </div>
         <div class="edit" v-if="page === 'edit'">
           <Edit
@@ -113,6 +121,7 @@ import About from "./About.vue";
 import Map from "./Map.vue";
 import Menu from "./Menu.vue";
 import Edit from "./Edit.vue";
+import Avis from "./Avis.vue";
 
 export default {
   name: "Resto",
@@ -138,6 +147,7 @@ export default {
     Map,
     Menu,
     Edit,
+    Avis,
   },
   mounted() {
     // se fait avant le mounted des components enfants
@@ -188,6 +198,9 @@ export default {
     galerieClicked() {
       this.page = "gallery";
     },
+    avisClicked() {
+      this.page = "avis";
+    },
   },
 };
 </script>
@@ -195,5 +208,11 @@ export default {
 <style scoped>
 .about {
   overflow: scroll;
+}
+.buttonCustomColor{
+  color: snow !important;
+}
+.buttonCustomBackground{
+  background-color: slategrey !important;
 }
 </style>

@@ -171,10 +171,51 @@ exports.createRestaurant = function(formData, callback) {
 	});
 }
 
+exports.addReview = function(id, formData, callback) {
+	MongoClient.connect(url, function(err, client) {
+		var db = client.db(dbName);
+
+		if(!err) {
+			let myquery = { "_id": ObjectId(id)};
+			let toUpdate = JSON.parse(formData.newGrade)
+			newGrade = { "date" : new Date(toUpdate.date), "grade" : toUpdate.grade, "score" : toUpdate.score }
+			db.collection("restaurants").updateOne(
+				myquery,
+				{ $push: { grades: newGrade }},
+				function(err, result) {
+					if(!err){
+						reponse = {
+							succes : true,
+							result: result,
+							error : null,
+							msg: "Modification réussie " + result
+						};
+					   } else {
+						reponse = {
+							succes : false,
+							error : err,
+							msg: "Problème à la modification"
+						};
+					}
+					callback(reponse);
+				}
+			)
+		}
+		else{
+		let reponse = reponse = {
+					succes: false,
+					error : err,
+					msg:"Problème lors de la modification, erreur de connexion."
+				};
+		callback(reponse);}
+	});
+	}
+
 exports.updateRestaurant = function(id, formData, callback) {
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
+
 
 		if(!err) {
             let myquery = { "_id": ObjectId(id)};
@@ -191,6 +232,7 @@ exports.updateRestaurant = function(id, formData, callback) {
 					}
 				},
 				borough : formData.borough,
+				grades : JSON.parse(formData.grades)
 	        };
 
 

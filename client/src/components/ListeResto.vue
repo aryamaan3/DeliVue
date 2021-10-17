@@ -5,12 +5,12 @@
     <div class="addandsearch">
       <div class="add" align="left">
         <md-button
-          class="md-primary"
+          class="md-primary impButton addButton"
           v-if="add === false"
           v-on:click="addClicked"
         >
           Ajouter
-          <md-icon>add</md-icon>
+          <md-icon class="impButton">add</md-icon>
         </md-button>
 
         <form v-on:submit="ajouterRestaurant" v-if="add === true">
@@ -19,8 +19,8 @@
             Cuisine : <input type="text" required v-model="cuisine" />
           </label>
 
-          <button class="md-icon-button">
-            <md-icon>add</md-icon>
+          <button class="md-icon-button addButton">
+            <md-icon class="impButton">add</md-icon>
           </button>
         </form>
       </div>
@@ -52,16 +52,16 @@
 
     <table class="table" v-if="nbTotal > 0">
       <tr>
-        <th>Name</th>
+        <th>Nom</th>
         <th>Cuisine</th>
-        <th>Operations</th>
+        <th>Opérations</th>
       </tr>
       <tbody>
         <tr
           v-for="(r, index) in restaurants"
           v-bind:key="index"
           v-bind:style="{ backgroundColor: getColor(index) }"
-          v-bind:class="{ bordureRouge: index === 2 }"
+          class="row"
         >
           <td>{{ r.name }}</td>
           <td>{{ r.cuisine }}</td>
@@ -156,7 +156,7 @@ export default {
       this.addClicked();
     },
     getColor(index) {
-      return index % 2 ? "lightBlue" : "pink";
+      return index % 2 ? "slategrey" : "dimgrey";
     },
     getRestaurantsFromServer(isSuivant) {
       if (isSuivant) {
@@ -242,5 +242,14 @@ export default {
 
 .search{
     margin-top:15px;
+}
+.row{
+  color:snow
+}
+.impButton{
+  color: snow !important;
+}
+.addButton{
+  background-color: slategrey !important;
 }
 </style>

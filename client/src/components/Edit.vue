@@ -42,8 +42,8 @@
       <md-switch v-model="advanced" class="md-primary"
         >Paramètres Avancés</md-switch
       >
-      <md-button type="submit" class="md-primary"
-        >Modifier <md-icon>check</md-icon></md-button
+      <md-button type="submit" class="md-primary buttonCustomColor buttonCustomBackground"
+        >Modifier <md-icon class="buttonCustomColor">check</md-icon></md-button
       >
     </form>
   </div>
@@ -78,11 +78,12 @@ export default {
       zip: "",
       grades: "",
       long: "",
+      street:""
     },
   }),
   mounted() {
-    this.init();
     console.log(this.$props);
+    this.init();
   },
   methods: {
     init() {
@@ -97,6 +98,7 @@ export default {
       this.form.long = this.coords[0];
       this.form.lat = this.coords[1];
       this.form.street = this.street;
+      this.form.grades = this.avis;
     },
     submitForm() {
       let formData = new FormData();
@@ -109,6 +111,7 @@ export default {
       formData.append("lng", this.form.long);
       formData.append("zipcode", this.form.zip);
       formData.append("street", this.form.street);
+      formData.append("grades", JSON.stringify(this.form.grades));
 
       console.log(formData);
       //fetch to put the data
@@ -133,3 +136,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.buttonCustomColor{
+  color: snow !important;
+}
+.buttonCustomBackground{
+  background-color: slategrey !important;
+}
+</style>
