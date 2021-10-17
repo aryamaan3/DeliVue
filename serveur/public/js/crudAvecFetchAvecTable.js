@@ -107,6 +107,7 @@ function putRequest(event) {
     // Récupération des valeurs des champs du formulaire
     // en prévision d'un envoi multipart en ajax/fetch
     let donneesFormulaire = new FormData(event.target);
+    console.log(donneesFormulaire);
 
     let id = form._id.value; // on peut aller chercher la valeur
                              // d'un champs d'un formulaire

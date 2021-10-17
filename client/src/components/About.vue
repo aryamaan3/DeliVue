@@ -8,21 +8,21 @@
                 <p>{{ cuisine }}</p>
                 </div>
             </md-list-item>
-            <md-list-item>
+            <md-list-item v-if="borough!=='null'">
                 <md-icon>apartment</md-icon>
                 <div class="md-list-item-text">
                 <h3>Borough</h3>
                 <p>{{ borough }}</p>
                 </div>
             </md-list-item>
-            <md-list-item>
+            <md-list-item v-if="borough!=='null'">
                 <md-icon>rate_review</md-icon>
                 <div class="md-list-item-text">
                 <h3>Avis Moyen</h3>
                 <p> {{average(grades)}}</p>
                 </div>
             </md-list-item>
-            <md-list-item>
+            <md-list-item v-if="borough!=='null'">
                 <md-icon>place</md-icon>
                 <div class="md-list-item-text">
                 <h3>Addresse</h3>

@@ -17,7 +17,7 @@
             <span class="md-list-item-text">À propos</span>
           </md-list-item>
 
-          <md-list-item v-on:click="mapClicked">
+          <md-list-item v-on:click="mapClicked" v-if="borough!=='null'">
             <md-icon>map</md-icon>
             <span class="md-list-item-text">Localisation</span>
           </md-list-item>
@@ -52,29 +52,45 @@
           />
         </div>
         <div class="mapContainer" v-if="page === 'map'">
-          <Map :coordinates="coordonnees" v-if="isMounted === true"/>
+          <Map :coordinates="coordonnees" v-if="isMounted === true" />
         </div>
         <div class="menu" v-if="page === 'menu'">
-          <Menu v-if="isMounted === true"/>
+          <Menu v-if="isMounted === true" />
         </div>
         <div class="edit" v-if="page === 'edit'">
-          <Edit :id="id" :name="name" :cuisine="cuisine" v-if="isMounted === true"/>
+          <Edit
+            :id="id"
+            :name="name"
+            :cuisine="cuisine"
+            v-if="isMounted === true"
+          />
         </div>
         <div class="gallery" v-if="page === 'gallery'">
           <md-list>
             <md-list-item>
               <md-icon>videocam</md-icon>
               <div class="md-list-item-text">
-              <h3>Videos</h3>
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/kkAxBzX8jYI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-              {{/**https://www.w3schools.com/html/html_youtube.asp */}}
+                <h3>Videos</h3>
+                <iframe
+                  width="560"
+                  height="315"
+                  src="https://www.youtube.com/embed/kkAxBzX8jYI"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+                {{/**https://www.w3schools.com/html/html_youtube.asp */}}
               </div>
             </md-list-item>
             <md-list-item>
               <md-icon>image</md-icon>
               <div class="md-list-item-text">
-              <h3>Images</h3>
-              <img src="https://bstatic.ccmbg.com/www.linternaute.com/img/restaurant/villes/440x293/1.jpg" alt="photo du resto">
+                <h3>Images</h3>
+                <img
+                  src="https://bstatic.ccmbg.com/www.linternaute.com/img/restaurant/villes/440x293/1.jpg"
+                  alt="photo du resto"
+                />
               </div>
             </md-list-item>
           </md-list>
@@ -106,42 +122,47 @@ export default {
       building: "null",
       street: "null",
       page: "",
-      isMounted: false
+      isMounted: false,
     };
   },
   components: {
     About,
     Map,
-    Menu, 
-    Edit
+    Menu,
+    Edit,
   },
-  mounted() { // se fait avant le mounted des components enfants
+  mounted() {
+    // se fait avant le mounted des components enfants
     //fetch resto data
     fetch("http://localhost:8080/api/restaurants/" + this.id, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        this.restoData = data.restaurant;
-        this.coordonnees = data.restaurant.address.coord;
-        this.center = data.restaurant.address.coord;
-        this.cuisine = data.restaurant.cuisine;
-        this.borough = data.restaurant.borough;
-        this.grades = data.restaurant.grades;
-        this.address = data.restaurant.address;
-        this.name = data.restaurant.name;
-        this.zipcode = data.restaurant.address.zipcode;
-        this.building = data.restaurant.address.building;
-        this.street = data.restaurant.address.street;
-        this.isMounted = true;
-        console.log("in resto 1")
-
+        if (data.restaurant.borough) {
+          //verifie si le resto contient toutes les données
+          this.restoData = data.restaurant;
+          this.coordonnees = data.restaurant.address.coord;
+          this.center = data.restaurant.address.coord;
+          this.cuisine = data.restaurant.cuisine;
+          this.borough = data.restaurant.borough;
+          this.grades = data.restaurant.grades;
+          this.address = data.restaurant.address;
+          this.name = data.restaurant.name;
+          this.zipcode = data.restaurant.address.zipcode;
+          this.building = data.restaurant.address.building;
+          this.street = data.restaurant.address.street;
+        }
+        else{
+          this.name = data.restaurant.name;
+          this.cuisine = data.restaurant.cuisine;
+        }
+        this.isMounted = true; // pour que les components enfants soit pas chargés avant celui ci
       })
       .catch((error) => {
         console.log(error);
       });
     this.page = "about";
-    console.log("in resto 2")
   },
   methods: {
     mapClicked() {
@@ -164,7 +185,7 @@ export default {
 </script>
 
 <style scoped>
-.about{
+.about {
   overflow: scroll;
 }
 </style>
