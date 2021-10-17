@@ -19,7 +19,7 @@
             <span class="md-list-item-text">À propos</span>
           </md-list-item>
 
-          <md-list-item v-on:click="mapClicked" v-if="borough!=='null'">
+          <md-list-item v-on:click="mapClicked" v-if="coordonnees[0]!==0 && coordonnees[1]!==0">
             <md-icon>map</md-icon>
             <span class="md-list-item-text">Localisation</span>
           </md-list-item>
@@ -64,6 +64,12 @@
             :id="id"
             :name="name"
             :cuisine="cuisine"
+            :borough="borough"
+            :building="building"
+            :street="street"
+            :zip="zipcode"
+            :coords="coordonnees"
+            :avis="grades"
             v-if="isMounted === true"
           />
         </div>
