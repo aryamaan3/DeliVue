@@ -1,1 +1,4 @@
-# Mini-Projet-Tech-Web-M1
+# edge cases
+
+- add restaurant => edit restaurant => values are null, 0, undefined
+- add a review without crushing all other data of resto
