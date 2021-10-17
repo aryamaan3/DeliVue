@@ -8,7 +8,9 @@
       </md-app-toolbar>
       <md-app-drawer md-permanent="full">
         <md-toolbar class="md-transparent" md-elevation="0">
-          Navigation
+          <md-button to="/" class="md-primary">
+            Retour
+          </md-button>
         </md-toolbar>
 
         <md-list>

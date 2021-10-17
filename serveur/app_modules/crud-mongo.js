@@ -175,7 +175,6 @@ exports.updateRestaurant = function(id, formData, callback) {
 
 	MongoClient.connect(url, function(err, client) {
 		var db = client.db(dbName);
-		console.log(formData);
 
 		if(!err) {
             let myquery = { "_id": ObjectId(id)};
