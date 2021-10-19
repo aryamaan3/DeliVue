@@ -15,7 +15,7 @@
           <p>{{ borough }}</p>
         </div>
       </md-list-item>
-      <md-list-item v-if="building !== 'null'">
+      <md-list-item v-if="building !== '' || street !== '' || zipcode !== ''">
         <md-icon>place</md-icon>
         <div class="md-list-item-text">
           <h3>Addresse</h3>

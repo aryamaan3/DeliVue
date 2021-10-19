@@ -1,15 +1,15 @@
 <template>
   <div class="avis">
-    <div class="noAvis" v-if="grades == undefined">
+    <div class="noAvis" v-if="renderGrades === false">
       <h3>Personne a donné son avis pour ce restaurant. Soyez le premier!</h3>
     </div>
-    <div class="yesAvis" v-if="grades != undefined">
+    <div class="yesAvis" v-if="renderGrades === true">
       <md-list>
         <md-list-item>
           <md-icon>rate_review</md-icon>
           <div class="md-list-item-text">
             <h3>Moyenne</h3>
-            <p>{{ average(grades) }}</p>
+            <p>{{ avgGrades }}</p>
           </div>
         </md-list-item>
 
@@ -76,12 +76,19 @@ export default {
     grade: "", 
     scores: [
         'A', 'B', 'C', 'P', 'Z'
-    ]
+    ], 
+    renderGrades: true,
+    avgGrades: 0
   }),
-  mounted() {},
+  mounted() {
+    if (this.grades.length === 0){
+      this.renderGrades = false;
+    }
+    this.avgGrades = this.average(this.grades);
+  },
   methods: {
     average(array) {
-      if (array) {
+      if (array && this.renderGrades) {
         let grades = [];
         let gradesAvg = 0;
         for (let i = 0; i < array.length; i++) {

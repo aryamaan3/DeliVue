@@ -20,7 +20,7 @@
         </md-field>
         <md-field>
           <label>Numero</label>
-          <md-input v-model="form.building"></md-input>
+          <md-input type="number" v-model="form.building"></md-input>
         </md-field>
         <md-field>
           <label>Rue</label>
@@ -28,15 +28,15 @@
         </md-field>
         <md-field>
           <label>Latitude</label>
-          <md-input v-model="form.lat"></md-input>
+          <md-input type="number" step="any" v-model="form.lat"></md-input>
         </md-field>
         <md-field>
           <label>Longitude</label>
-          <md-input v-model="form.long"></md-input>
+          <md-input type="number" step="any" v-model="form.long"></md-input>
         </md-field>
         <md-field>
           <label>Code Postal</label>
-          <md-input v-model="form.zip"></md-input>
+          <md-input type="number" v-model="form.zip"></md-input>
         </md-field>
       </div>
       <md-switch v-model="advanced" class="md-primary"
@@ -93,11 +93,23 @@ export default {
       this.form.name = this.name;
       this.form.cuisine = this.cuisine;
       this.form.borough = this.borough;
+      if(this.borough === "null"){
+        this.form.borough = "";
+      }
       this.form.building = this.building;
+      if(this.building === "null"){
+        this.form.building = "";
+      }
       this.form.zip = this.zip;
+      if (this.zip === "null") {
+        this.form.zip = "";
+      }
       this.form.long = this.coords[0];
       this.form.lat = this.coords[1];
       this.form.street = this.street;
+      if (this.street === "null") {
+        this.form.street = "";
+      }
       this.form.grades = this.avis;
     },
     submitForm() {

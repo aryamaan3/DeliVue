@@ -8,38 +8,49 @@
       </md-app-toolbar>
       <md-app-drawer md-permanent="full">
         <md-toolbar class="md-transparent" md-elevation="0">
-          <md-button to="/" class="md-primary buttonCustomColor buttonCustomBackground">
+          <md-button
+            to="/"
+            class="md-primary buttonCustomColor buttonCustomBackground"
+          >
             Retour
           </md-button>
         </md-toolbar>
 
         <md-list>
-          <md-list-item v-on:click="aboutClicked" :disabled="page==='about'">
+          <md-list-item v-on:click="aboutClicked" :disabled="page === 'about'">
             <md-icon>help_outline</md-icon>
             <span class="md-list-item-text">À propos</span>
           </md-list-item>
 
-          <md-list-item v-on:click="avisClicked" :disabled="page==='avis'">
+          <md-list-item v-on:click="avisClicked" :disabled="page === 'avis'">
             <md-icon>grade</md-icon>
             <span class="md-list-item-text">Avis</span>
           </md-list-item>
 
-          <md-list-item v-on:click="mapClicked" :disabled="page==='map' || coordonnees[0]===0 && coordonnees[1]===0">
+          <md-list-item
+            v-on:click="mapClicked"
+            :disabled="
+              page === 'map' || (coordonnees[0] === 0 && coordonnees[1] === 0 || coordonnees[0] === null && coordonnees[1] === null || coordonnees[0] === '' && coordonnees[1] === '')
+            "
+          >
             <md-icon>map</md-icon>
             <span class="md-list-item-text">Localisation</span>
           </md-list-item>
 
-          <md-list-item v-on:click="galerieClicked" :disabled="page==='gallery'">
+          <md-list-item
+            v-on:click="galerieClicked"
+            :disabled="page === 'gallery'"
+          >
             <md-icon>photo_library</md-icon>
             <span class="md-list-item-text">Galerie</span>
           </md-list-item>
 
-          <md-list-item v-on:click="menuClicked" :disabled="page==='menu'">
+          <md-list-item v-on:click="menuClicked" :disabled="page === 'menu'">
             <md-icon>restaurant_menu</md-icon>
             <span class="md-list-item-text">Menu</span>
           </md-list-item>
 
-          <md-list-item v-on:click="editClicked" :disabled="page==='edit'">
+          <md-list-item v-on:click="editClicked" :disabled="page === 'edit'">
             <md-icon>edit</md-icon>
             <span class="md-list-item-text">Modifier</span>
           </md-list-item>
@@ -170,8 +181,15 @@ export default {
           this.zipcode = data.restaurant.address.zipcode;
           this.building = data.restaurant.address.building;
           this.street = data.restaurant.address.street;
-        }
-        else{
+        } else if (data.restaurant.grades) {
+          this.grades = data.restaurant.grades;
+          this.name = data.restaurant.name;
+          this.cuisine = data.restaurant.cuisine;
+        } else if (this.grades === "null") {
+          this.grades = [];
+          this.name = data.restaurant.name;
+          this.cuisine = data.restaurant.cuisine;
+        } else {
           this.name = data.restaurant.name;
           this.cuisine = data.restaurant.cuisine;
         }
@@ -201,6 +219,9 @@ export default {
     avisClicked() {
       this.page = "avis";
     },
+    check() {
+      console.log("here");
+    },
   },
 };
 </script>
@@ -209,10 +230,10 @@ export default {
 .about {
   overflow: scroll;
 }
-.buttonCustomColor{
+.buttonCustomColor {
   color: snow !important;
 }
-.buttonCustomBackground{
+.buttonCustomBackground {
   background-color: slategrey !important;
 }
 </style>

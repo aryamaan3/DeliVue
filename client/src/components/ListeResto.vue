@@ -103,6 +103,7 @@ export default {
   components: {},
   mounted() {
     this.getRestaurantsFromServer();
+    console.log()
   },
   data: function () {
     return {
@@ -156,7 +157,7 @@ export default {
       this.addClicked();
     },
     getColor(index) {
-      return index % 2 ? "slategrey" : "dimgrey";
+      return index % 2 ? "slategrey" : "slategrey";
     },
     getRestaurantsFromServer(isSuivant) {
       if (isSuivant) {

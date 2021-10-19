@@ -113,6 +113,7 @@ exports.findRestaurantById = function(id, callback) {
 
                     };
                 }
+				console.log(reponse.restaurant.grades)
                 callback(reponse);
             });
         } else {
@@ -135,7 +136,8 @@ exports.createRestaurant = function(formData, callback) {
 	 
 			let toInsert = {
 				name : formData.name, 
-				cuisine : formData.cuisine
+				cuisine : formData.cuisine,
+				grades : []
 			};
 			console.dir(JSON.stringify(toInsert));
 		    db.collection("restaurants")
