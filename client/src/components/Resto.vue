@@ -47,7 +47,7 @@
 
           <md-list-item v-on:click="menuClicked" :disabled="page === 'menu'">
             <md-icon>restaurant_menu</md-icon>
-            <span class="md-list-item-text">Menu</span>
+            <span class="md-list-item-text">Carte</span>
           </md-list-item>
 
           <md-list-item v-on:click="editClicked" :disabled="page === 'edit'">
