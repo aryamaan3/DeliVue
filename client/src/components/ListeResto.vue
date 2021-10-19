@@ -19,10 +19,16 @@
             Cuisine : <input type="text" required v-model="cuisine" />
           </label>
 
-          <button class="md-icon-button addButton">
-            <md-icon class="impButton">add</md-icon>
-          </button>
+            <button @click="show = !show" class="md-icon-button addButton">
+              <md-icon class="impButton">add</md-icon>
+            </button>
         </form>
+        <transition
+            name="custom-classes-transition"
+            leave-active-class="animated bounceOutRight"
+          >
+        <md-icon v-if="show">send</md-icon>
+        </transition>
       </div>
 
       <object class="search" align="right">
@@ -103,7 +109,7 @@ export default {
   components: {},
   mounted() {
     this.getRestaurantsFromServer();
-    console.log()
+    console.log();
   },
   data: function () {
     return {
@@ -116,6 +122,7 @@ export default {
       nomSearched: "",
       nbTotal: 0,
       add: false,
+      show:false
     };
   },
   methods: {
@@ -154,6 +161,7 @@ export default {
       });
       this.name = "";
       this.cuisine = "";
+
       this.addClicked();
     },
     getColor(index) {
@@ -213,6 +221,7 @@ export default {
     },
     addClicked() {
       this.add = !this.add;
+      this.show = false;
     },
   },
 };
@@ -220,6 +229,8 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Material+Icons");
+@import url("https://cdn.jsdelivr.net/npm/animate.css@3.5.1");
+
 #resto {
   width: 100%;
   margin-top: 10px;
@@ -241,16 +252,16 @@ export default {
   justify-content: space-between;
 }
 
-.search{
-    margin-top:15px;
+.search {
+  margin-top: 15px;
 }
-.row{
-  color:snow
+.row {
+  color: snow;
 }
-.impButton{
+.impButton {
   color: snow !important;
 }
-.addButton{
+.addButton {
   background-color: slategrey !important;
 }
 </style>
