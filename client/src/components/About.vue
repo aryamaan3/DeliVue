@@ -15,7 +15,7 @@
           <p>{{ borough }}</p>
         </div>
       </md-list-item>
-      <md-list-item v-if="building !== '' || street !== '' || zipcode !== ''">
+      <md-list-item v-if="checkIfAdressShown()">
         <md-icon>place</md-icon>
         <div class="md-list-item-text">
           <h3>Addresse</h3>
@@ -42,6 +42,12 @@ export default {
   ],
   components: {},
   methods: {
+    checkIfAdressShown(){
+      if (this.building != "null" || this.street != "null" || this.zipcode != "null") {
+        return true;
+      }
+      return false
+    }
   },
 };
 </script>

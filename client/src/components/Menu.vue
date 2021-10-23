@@ -3,8 +3,8 @@
     <h2>Carte du restaurant</h2>
     <div class="panier" align="right">
       <md-badge class="md-primary" md-content="3">
-        <md-button class="md-icon-button">
-          <md-icon>shopping_bag</md-icon>
+        <md-button class="md-icon-button" v-on:click="panierClicked($event)">
+          <md-icon value="test">shopping_bag</md-icon>
         </md-button>
       </md-badge>
     </div>
@@ -187,7 +187,11 @@ export default {
   props: ["menu"],
   data: () => ({}),
   mounted() {},
-  methods: {},
+  methods: {
+    panierClicked(event){
+      console.log(event.target.value);
+    }
+  },
 };
 </script>
 
