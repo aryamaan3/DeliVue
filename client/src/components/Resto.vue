@@ -202,6 +202,7 @@ export default {
   },
   methods: {
     mapClicked() {
+      console.log("map clicked");
       this.page = "map";
     },
     aboutClicked() {
