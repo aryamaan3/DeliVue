@@ -11,133 +11,99 @@
     <md-dialog :md-active.sync="showDialog">
       <md-dialog-title>Votre Commande</md-dialog-title>
 
+      <md-list>
+        <md-list-item v-for="index in lenPanier" :key="index">
+          <md-list-item-text>
+            <md-list-item-title>{{
+              panier.plat[index - 1]
+            }}</md-list-item-title>
+            <md-list-item-subtitle>
+              {{ panier.prix[index - 1] }} €</md-list-item-subtitle
+            >
+          </md-list-item-text>
+          <md-list-item-action>
+            <md-button
+              class="md-icon-button"
+              v-on:click="removeFromPanier(index - 1)"
+            >
+              <md-icon>remove_circle</md-icon>
+            </md-button>
+          </md-list-item-action>
+        </md-list-item>
+        <md-list-item>
+          <md-list-item-text>
+            <md-list-item-title>Total</md-list-item-title>
+            <md-list-item-subtitle> {{ total }} €</md-list-item-subtitle>
+          </md-list-item-text>
+        </md-list-item>
+      </md-list>
+
       <form novalidate class="md-layout" @submit.prevent="validateUser">
-
-          <md-card-content>
-            <div class="md-layout md-gutter">
-              <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('firstName')">
-                  <label for="first-name">First Name</label>
-                  <md-input
-                    name="first-name"
-                    id="first-name"
-                    autocomplete="given-name"
-                    v-model="form.firstName"
-                    :disabled="sending"
-                  />
-                  <span class="md-error" v-if="!$v.form.firstName.required"
-                    >The first name is required</span
-                  >
-                  <span
-                    class="md-error"
-                    v-else-if="!$v.form.firstName.minlength"
-                    >Invalid first name</span
-                  >
-                </md-field>
-              </div>
-
-              <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('lastName')">
-                  <label for="last-name">Last Name</label>
-                  <md-input
-                    name="last-name"
-                    id="last-name"
-                    autocomplete="family-name"
-                    v-model="form.lastName"
-                    :disabled="sending"
-                  />
-                  <span class="md-error" v-if="!$v.form.lastName.required"
-                    >The last name is required</span
-                  >
-                  <span class="md-error" v-else-if="!$v.form.lastName.minlength"
-                    >Invalid last name</span
-                  >
-                </md-field>
-              </div>
+        <md-card-content>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field>
+                <label for="last-name">Nom</label>
+                <md-input
+                  name="last-name"
+                  id="last-name"
+                  autocomplete="family-name"
+                  v-model="form.nom"
+                />
+              </md-field>
             </div>
-
-            <div class="md-layout md-gutter">
-              <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('gender')">
-                  <label for="gender">Gender</label>
-                  <md-select
-                    name="gender"
-                    id="gender"
-                    v-model="form.gender"
-                    md-dense
-                    :disabled="sending"
-                  >
-                    <md-option></md-option>
-                    <md-option value="M">M</md-option>
-                    <md-option value="F">F</md-option>
-                  </md-select>
-                  <span class="md-error">The gender is required</span>
-                </md-field>
-              </div>
-
-              <div class="md-layout-item md-small-size-100">
-                <md-field :class="getValidationClass('age')">
-                  <label for="age">Age</label>
-                  <md-input
-                    type="number"
-                    id="age"
-                    name="age"
-                    autocomplete="age"
-                    v-model="form.age"
-                    :disabled="sending"
-                  />
-                  <span class="md-error" v-if="!$v.form.age.required"
-                    >The age is required</span
-                  >
-                  <span class="md-error" v-else-if="!$v.form.age.maxlength"
-                    >Invalid age</span
-                  >
-                </md-field>
-              </div>
+            <div class="md-layout-item md-small-size-100">
+              <md-field>
+                <label for="first-name">Prenom</label>
+                <md-input autocomplete="given-name" v-model="form.prenom" />
+              </md-field>
             </div>
+          </div>
 
-            <md-field :class="getValidationClass('email')">
-              <label for="email">Email</label>
-              <md-input
-                type="email"
-                name="email"
-                id="email"
-                autocomplete="email"
-                v-model="form.email"
-                :disabled="sending"
-              />
-              <span class="md-error" v-if="!$v.form.email.required"
-                >The email is required</span
-              >
-              <span class="md-error" v-else-if="!$v.form.email.email"
-                >Invalid email</span
-              >
-            </md-field>
-          </md-card-content>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field>
+                <label for="adresse">Addresse</label>
+                <md-input v-model="form.adresse"></md-input>
+                <span class="md-error">L'addresse est nécessaire</span>
+              </md-field>
+            </div>
+          </div>
 
-          <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
-
-        <md-snackbar :md-active.sync="userSaved"
-          >The user {{ lastUser }} was saved with success!</md-snackbar
-        >
-        <md-button
-          type="submit"
-          class="md-primary md-raised"
-          :disabled="!$v.form.valid || sending">
-          Save
-        </md-button>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field>
+                <label for="paiement">Paiement</label>
+                <md-select v-model="form.paiement">
+                  <md-option></md-option>
+                  <md-option value="M">Espèces</md-option>
+                  <md-option value="F">CB</md-option>
+                </md-select>
+              </md-field>
+            </div>
+          </div>
+        </md-card-content>
       </form>
 
       <md-dialog-actions>
         <md-button class="md-accent" @click="showDialog = false"
           >Annuler</md-button
         >
-        <md-button class="md-primary" @click="showDialog = false"
+        <md-button class="md-primary" @click="commanderClicked"
           >Commander</md-button
         >
       </md-dialog-actions>
+      <md-dialog-alert
+        :md-active.sync="formError"
+        md-content="Veuillez remplir tous les champs"
+        md-confirm-text="OK"
+      />
     </md-dialog>
+    <md-dialog-alert
+      :md-active.sync="formSent"
+      md-content="Merci pour votre commande!"
+      md-confirm-text="X"
+    />
 
     <h3>Menus</h3>
     <md-list class="md-triple-line">
@@ -314,29 +280,16 @@
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
-import {
-  required,
-  email,
-  minLength,
-  maxLength,
-} from "vuelidate/lib/validators";
-
 export default {
   name: "Menu",
-  mixins: [validationMixin],
   props: ["menu"],
   data: () => ({
     form: {
-      firstName: null,
-      lastName: null,
-      gender: null,
-      age: null,
-      email: null,
+      prenom: null,
+      nom: null,
+      adresse: null,
+      paiement: null,
     },
-    userSaved: false,
-    sending: false,
-    lastUser: null,
     panier: {
       plat: [],
       prix: [],
@@ -344,49 +297,11 @@ export default {
     total: 0,
     lenPanier: 0,
     showDialog: false,
+    formError: false,
+    formSent: false,
   }),
-  validations: {
-      form: {
-        firstName: {
-          required,
-          minLength: minLength(3)
-        },
-        lastName: {
-          required,
-          minLength: minLength(3)
-        },
-        age: {
-          required,
-          maxLength: maxLength(3)
-        },
-        gender: {
-          required
-        },
-        email: {
-          required,
-          email
-        }
-      }
-    },
   mounted() {},
   methods: {
-    getValidationClass (fieldName) {
-        const field = this.$v.form[fieldName]
-
-        if (field) {
-          return {
-            'md-invalid': field.$invalid && field.$dirty
-          }
-        }
-      },
-      clearForm () {
-        this.$v.$reset()
-        this.form.firstName = null
-        this.form.lastName = null
-        this.form.age = null
-        this.form.gender = null
-        this.form.email = null
-      },
     panierClicked() {
       this.showDialog = true;
     },
@@ -395,6 +310,33 @@ export default {
       this.panier.prix.push(parseInt(prixPlat));
       this.total += parseInt(prixPlat);
       this.lenPanier += 1;
+    },
+    isFormValid() {
+      return (
+        this.form.prenom &&
+        this.form.nom &&
+        this.form.adresse &&
+        this.form.paiement &&
+        this.total
+      );
+    },
+    removeFromPanier(index) {
+      this.total -= this.panier.prix[index];
+      this.panier.plat.splice(index, 1);
+      this.panier.prix.splice(index, 1);
+      this.lenPanier -= 1;
+    },
+    commanderClicked() {
+      if (this.isFormValid()) {
+        this.showDialog = false;
+        this.formSent = true;
+        // reload page after 5 seconds
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        this.formError = true;
+      }
     },
   },
 };
