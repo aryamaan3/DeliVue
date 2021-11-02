@@ -113,7 +113,6 @@ exports.findRestaurantById = function(id, callback) {
 
                     };
                 }
-				console.log(reponse.restaurant.grades)
                 callback(reponse);
             });
         } else {
