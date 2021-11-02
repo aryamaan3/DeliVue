@@ -1,4 +1,4 @@
-# Site de commande de nourriture en ligne
+# DeliVue
 
 ## Deploiement du projet sur votre machine
 

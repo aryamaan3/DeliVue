@@ -1,6 +1,11 @@
 <template>
   <div id="resto">
-    <h1>Base de données de restaurants</h1>
+    <h1>
+      <md-avatar>
+        <img src="https://pbs.twimg.com/profile_images/1344931946804240384/baOmUv0L.jpg">
+      </md-avatar>
+      DeliVue
+    </h1>
 
     <div class="addandsearch">
       <div class="add" align="left">
