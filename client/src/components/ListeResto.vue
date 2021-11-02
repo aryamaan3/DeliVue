@@ -60,6 +60,7 @@
       <tr>
         <th>Nom</th>
         <th>Cuisine</th>
+        <th>Ville</th>
         <th>Opérations</th>
       </tr>
       <tbody>
@@ -71,6 +72,7 @@
         >
           <td>{{ r.name }}</td>
           <td>{{ r.cuisine }}</td>
+          <td>{{ r.borough }}</td>
           <td>
             <md-button
               v-on:click="supprimerRestaurant(index)"

@@ -39,13 +39,9 @@ $ npm run serve
 
 ```
 
-## Description
+## Fonctionnalités livrés
 
-L'interface graphique du site a été faite à l'aide de Vue-Material.
-
-### Fonctionnalités livrés
-
-#### Basique
+### Basique
 
 - [x] Ajout d'un restaurant dans la base de données
 - [x] Recherche d'un restaurant
@@ -62,7 +58,22 @@ L'interface graphique du site a été faite à l'aide de Vue-Material.
 
 
 
-#### Avancé
+### Avancé
+
+#### Modifcation
+
+Dans l'onglet "Modifier" si on coche "Parametres Avancés", le formulaire s'agrandit avec des champs supplémentaires. L'utilisateur peut modifier tous les champs, tels que longitude, latitude, Code postal, Quartier, etc. 
+Pour faire cela j'ai modifé dans le fichier [crud-mongo.js](serveur/app_modules/crud-mongo.js) la fonction updateRestaurant. Cette fonction accueile desormais les modifcations à toutes les colonnes de la base de données.
+
+#### Carte
+
+Dans l'onglet "Carte", l'utilisateur peut voir la carte du restaurant. Il peut ajouter des plats dans son panier. Il peut ensuite consulter son panier et supprimer des plats. Enfin il doit saisir les informations necessaire au paiement et valider le paiement.
+
+#### Avis
+
+Dans l'onglet "Avis", l'utilisateur peut consulter les avis existants, les avis existants ont une image pris au hasard. Si le restaurant n'a pas d'avis c'est indiqué.
+L'utilisateur peut ajouter un avis, il doit selectionner la date de son avis, sa note, et son score.
+Ceci a été possible en créant la fonction "addReview" dans [crud-mongo.js](serveur/app_modules/crud-mongo.js). Cette fonction utilise la méthode [updateOne](https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/) pour modifier le restaurant.
 
 
 
